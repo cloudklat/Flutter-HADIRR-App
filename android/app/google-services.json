@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "981973308169",
+    "project_id": "sisfo-id",
+    "storage_bucket": "sisfo-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981973308169:android:f1b3928746b531aa62b9d8",
+        "android_client_info": {
+          "package_name": "com.example.sisfo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981973308169-g5bukjo1rivkma301imqb1jsmufgjjsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhpHhFCWAI3SqrrzByvp55sn0Eymg1x04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981973308169-g5bukjo1rivkma301imqb1jsmufgjjsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

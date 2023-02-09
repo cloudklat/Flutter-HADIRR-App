@@ -18,7 +18,7 @@ class AllAbsensiController extends GetxController {
           .collection('student')
           .doc(uid)
           .collection('presence')
-          .where('date', isLessThan: end)
+          .where('date', isLessThan: end.toIso8601String())
           .orderBy('date', descending: true)
           .get();
     } else {
@@ -26,10 +26,18 @@ class AllAbsensiController extends GetxController {
           .collection('student')
           .doc(uid)
           .collection('presence')
-          .where('date', isGreaterThan: start)
-          .where('date', isLessThan: end)
+          .where('date', isGreaterThan: start!.toIso8601String())
+          .where('date',
+              isLessThan: end.add(Duration(days: 1)).toIso8601String())
           .orderBy('date', descending: true)
           .get();
     }
+  }
+
+  void pickDate(DateTime pickStart, DateTime pickEnd) {
+    start = pickStart;
+    end = pickEnd;
+    update();
+    Get.back();
   }
 }

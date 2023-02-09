@@ -29,7 +29,7 @@ class IndexPageController extends GetxController {
 
           // ? Cek Jarak 2 posisi
           double distance = Geolocator.distanceBetween(
-              -6.1993656, 106.552505, position.latitude, position.longitude);
+              -6.193001, 106.568981, position.latitude, position.longitude);
 
           // ? Absensi
           await absensi(position, address, distance);
@@ -60,7 +60,7 @@ class IndexPageController extends GetxController {
 
     String status = 'Di luar Area';
 
-    if (distance <= 500) {
+    if (distance <= 300) {
       status = 'Di dalam Area';
     } else {}
 

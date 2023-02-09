@@ -157,7 +157,6 @@ class HomeView extends GetView<HomeController> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
                 Divider(
                   color: Colors.grey[300],
                   thickness: 2,

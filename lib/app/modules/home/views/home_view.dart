@@ -41,6 +41,7 @@ class HomeView extends GetView<HomeController> {
                         height: 75,
                         color: Colors.grey[200],
                         child: Image.network(
+                          // ignore: prefer_if_null_operators
                           user['profile'] != null
                               ? user['profile']
                               : defaultImage,
@@ -53,7 +54,7 @@ class HomeView extends GetView<HomeController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Welcome,',
+                          'Welcome..',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -114,29 +115,46 @@ class HomeView extends GetView<HomeController> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey[200],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
+                  child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: controller.streamTodayPresence(),
+                    builder: (context, snapToday) {
+                      if (snapToday.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      Map<String, dynamic>? dataToday = snapToday.data?.data();
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text('Check-In'),
-                          Text('-'),
+                          Column(
+                            children: [
+                              Text('Check-In'),
+                              Text(dataToday?['masuk'] == null
+                                  ? '-'
+                                  : '${DateFormat.jms().format(DateTime.parse(dataToday!["masuk"]["date"]))}'),
+                            ],
+                          ),
+                          SizedBox(),
+                          Container(
+                            width: 2,
+                            height: 40,
+                            color: Colors.grey,
+                          ),
+                          Divider(),
+                          Column(
+                            children: [
+                              Text('Check-Out'),
+                              Text(dataToday?['keluar'] == null
+                                  ? '-'
+                                  : '${DateFormat.jms().format(DateTime.parse(dataToday!["keluar"]["date"]))}'),
+                            ],
+                          ),
                         ],
-                      ),
-                      SizedBox(),
-                      Container(
-                        width: 2,
-                        height: 40,
-                        color: Colors.grey,
-                      ),
-                      Divider(),
-                      Column(
-                        children: [
-                          Text('Check-Out'),
-                          Text('-'),
-                        ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 20),
@@ -162,56 +180,86 @@ class HomeView extends GetView<HomeController> {
                   ],
                 ),
                 SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Material(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(20),
-                        child: InkWell(
-                          onTap: () => Get.toNamed(Routes.DETAIL_ABSEN),
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: controller.streamLastPresence(),
+                  builder: (context, snapPresence) {
+                    if (snapPresence.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    print(snapPresence.data?.docs);
+                    // ignore: prefer_is_empty
+                    if (snapPresence.data?.docs.length == 0 ||
+                        snapPresence.data == null) {
+                      return SizedBox(
+                        height: 170,
+                        child: Center(
+                          child: Text('Belum ada Riwayat Absensi..'),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapPresence.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> data =
+                            snapPresence.data!.docs[index].data();
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Material(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(20),
+                            child: InkWell(
+                              onTap: () => Get.toNamed(
+                                Routes.DETAIL_ABSEN,
+                                arguments: data,
+                              ),
                               borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Masuk',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Masuk',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${DateFormat.yMMMEd().format(DateTime.parse(data["date"]))}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      '${DateFormat.yMMMEd().format(DateTime.now())}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Text(data["masuk"]?["date"] == null
+                                        ? "-"
+                                        : '${DateFormat.jms().format(DateTime.parse(data["masuk"]!["date"]))}'),
+                                    SizedBox(height: 10),
+                                    Text('Keluar'),
+                                    Text(data["keluar"]?["date"] == null
+                                        ? "-"
+                                        : '${DateFormat.jms().format(DateTime.parse(data["keluar"]!["date"]))}'),
                                   ],
                                 ),
-                                Text(
-                                    '${DateFormat.jms().format(DateTime.now())}'),
-                                SizedBox(height: 10),
-                                Text('Keluar'),
-                                Text(
-                                    '${DateFormat.jms().format(DateTime.now())}'),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 ),

@@ -73,12 +73,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_ABSEN,
-      page: () => const DetailAbsenView(),
+      page: () => DetailAbsenView(),
       binding: DetailAbsenBinding(),
     ),
     GetPage(
       name: _Paths.ALL_ABSENSI,
-      page: () => const AllAbsensiView(),
+      page: () => AllAbsensiView(),
       binding: AllAbsensiBinding(),
     ),
   ];

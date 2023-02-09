@@ -6,9 +6,10 @@ import 'package:intl/intl.dart';
 import '../controllers/detail_absen_controller.dart';
 
 class DetailAbsenView extends GetView<DetailAbsenController> {
-  const DetailAbsenView({Key? key}) : super(key: key);
+  final Map<String, dynamic> data = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    print(data);
     return Scaffold(
       appBar: AppBar(
         title: const Text('DETAIL ABSENSI'),

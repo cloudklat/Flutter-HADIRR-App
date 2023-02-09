@@ -26,7 +26,7 @@ class DetailAbsenView extends GetView<DetailAbsenController> {
               children: [
                 Center(
                   child: Text(
-                    '${DateFormat.yMMMMEEEEd().format(DateTime.now())}',
+                    '${DateFormat.yMMMMEEEEd().format(DateTime.parse(data['date']))}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 17,
@@ -41,13 +41,19 @@ class DetailAbsenView extends GetView<DetailAbsenController> {
                   ),
                 ),
                 Text(
-                  'Jam : ${DateFormat.jms().format(DateTime.now())}',
+                  'Jam : ${DateFormat.jms().format(DateTime.parse(data['masuk']!['date']))}',
                 ),
                 Text(
-                  'Posisi : -7.8218, 219.12919',
+                  'Posisi : ${data['masuk']!['lat']}, ${data['masuk']!['long']}',
                 ),
                 Text(
-                  'Status : Di dalam area',
+                  'Status : ${data['masuk']!['status']}',
+                ),
+                Text(
+                  'Distance : ${data['masuk']!['distance'].toString().split('.').first} Meter',
+                ),
+                Text(
+                  'Address : ${data['masuk']!['address']}',
                 ),
                 SizedBox(
                   height: 20,
@@ -59,13 +65,30 @@ class DetailAbsenView extends GetView<DetailAbsenController> {
                   ),
                 ),
                 Text(
-                  'Jam : ${DateFormat.jms().format(DateTime.now())}',
+                  data['keluar']?['date'] == null
+                      ? 'Jam : -'
+                      : 'Jam : ${DateFormat.jms().format(DateTime.parse(data['keluar']!['date']))}',
                 ),
                 Text(
-                  'Posisi : -7.8218, 219.12919',
+                  data['keluar']?['lat'] == null &&
+                          data['keluar']?['long'] == null
+                      ? 'Posisi : -'
+                      : 'Posisi : ${data['keluar']!['lat']}, ${data['keluar']!['long']}',
                 ),
                 Text(
-                  'Status : Di dalam area',
+                  data['keluar']?['status'] == null
+                      ? 'Status : -'
+                      : 'Status : ${data['keluar']!['status']}',
+                ),
+                Text(
+                  data['keluar']?['distance'] == null
+                      ? 'Distance : -'
+                      : 'Distance : ${data['keluar']!['distance'].toString().split('.').first} Meter',
+                ),
+                Text(
+                  data['keluar']?['address'] == null
+                      ? 'Address : -'
+                      : 'Address : ${data['keluar']!['address']}',
                 ),
               ],
             ),

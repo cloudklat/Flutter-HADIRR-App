@@ -58,10 +58,10 @@ class IndexPageController extends GetxController {
     DateTime now = DateTime.now();
     String todayDocID = DateFormat.yMd().format(now).replaceAll('/', '-');
 
-    String status = 'Di Luar Area';
+    String status = 'Di luar Area';
 
     if (distance <= 500) {
-      status = 'Di Dalam Area';
+      status = 'Di dalam Area';
     } else {}
 
     if (snapPresence.docs.length == 0) {

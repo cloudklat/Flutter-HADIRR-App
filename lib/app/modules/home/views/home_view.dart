@@ -189,7 +189,7 @@ class HomeView extends GetView<HomeController> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    print(snapPresence.data?.docs);
+
                     // ignore: prefer_is_empty
                     if (snapPresence.data?.docs.length == 0 ||
                         snapPresence.data == null) {

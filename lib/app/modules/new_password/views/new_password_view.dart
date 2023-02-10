@@ -10,6 +10,11 @@ class NewPasswordView extends GetView<NewPasswordController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
         title: const Text('New Password'),
         centerTitle: true,
       ),

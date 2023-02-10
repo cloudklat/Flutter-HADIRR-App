@@ -15,6 +15,11 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
     controller.emailC.text = user['email'];
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
         title: const Text('UPDATE PROFILE'),
         centerTitle: true,
       ),

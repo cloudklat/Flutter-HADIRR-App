@@ -21,35 +21,36 @@ void main() async {
   final PageC = Get.put(IndexPageController(), permanent: true);
   runApp(
     StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return MaterialApp(
-              home: Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
               ),
-            );
-          }
-          print(snapshot.data);
-          return GetMaterialApp(
-            title: 'Application',
-            initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
-            //? Route to Login
-            // initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              useMaterial3: true,
-              brightness: Brightness.light,
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.cyan,
-                foregroundColor: Colors.white,
-              ),
-              // primarySwatch: Colors.lightBlue,
             ),
           );
-        }),
+        }
+        print(snapshot.data);
+        return GetMaterialApp(
+          title: 'Application',
+          initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
+          //? Route to Login
+          // initialRoute: AppPages.INITIAL,
+          getPages: AppPages.routes,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.light,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.cyan,
+              foregroundColor: Colors.white,
+            ),
+            // primarySwatch: Colors.lightBlue,
+          ),
+        );
+      },
+    ),
   );
 }

@@ -279,9 +279,10 @@ class HomeView extends GetView<HomeController> {
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: Colors.cyan,
         style: TabStyle.fixedCircle,
+        cornerRadius: 15,
         top: -30,
         curveSize: 80,
-        // color: Colors.,
+        // color: Colors.purple[300],
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.person_pin_circle_rounded, title: 'Add'),

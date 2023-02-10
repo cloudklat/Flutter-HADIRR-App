@@ -109,6 +109,7 @@ class ProfileView extends GetView<ProfileController> {
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: Colors.cyan,
         style: TabStyle.fixedCircle,
+        cornerRadius: 15,
         top: -30,
         curveSize: 80,
         items: [
